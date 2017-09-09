@@ -21,9 +21,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-
-public class MvpJava extends AnAction {
-
+public class MvpRecycler extends AnAction {
     private String ACTIVITY = "Activity.java";
     private String FRAGMENT = "Fragment.java";
 
@@ -98,7 +96,7 @@ public class MvpJava extends AnAction {
         File file = new File(path, filename);
         file.createNewFile();
         BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-        String content = String.format(MvpTemplate.MVP_TEMPLATE, basePackage, modelName);
+        String content = String.format(MvpTemplate.MVP_RECYCLER_TEMPLATE, basePackage, modelName);
         writer.write(content);
         writer.flush();
         writer.close();
@@ -120,7 +118,7 @@ public class MvpJava extends AnAction {
         File file = new File(path, filename);
         file.createNewFile();
         BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-        String content = String.format(f ? MvpTemplate.PRESENTER_FRAGMENT_TEMPLATE : MvpTemplate.PRESENTER_ACTIVITY_TEMPLATE, basePackage, modelName);
+        String content = String.format(f ? MvpTemplate.PRESENTER_RECYCLER_FRAGMENT_TEMPLATE : MvpTemplate.PRESENTER__RECYCLER_ACTIVITY_TEMPLATE, basePackage, modelName);
         writer.write(content);
         writer.flush();
         writer.close();

@@ -32,9 +32,9 @@
                     class="com.ao.java.MvpJava"
                     text="mvpJava" description="mvpJava">
             </action>
-            <action id="MVPSupportPlugin.Kotlin"
-                    class="com.ao.kotlin.KotlinMvp"
-                    text="mvpKotlin" description="mvpKotlin">
+            <action id="MVPSupportPlugin.RecyclerJava"
+                    class="com.ao.java.MvpRecycler"
+                    text="mvpRecyclerJava" description="mvpRecyclerJava">
             </action>
         </group>
     </actions>
