@@ -24,6 +24,7 @@ import java.util.List;
 public class MvpRecycler extends AnAction {
     private String ACTIVITY = "Activity.java";
     private String FRAGMENT = "Fragment.java";
+    private String VIEW = "View.java";
 
     private List<String> domain = Arrays.asList("com", "cn", "net");
 
@@ -40,12 +41,12 @@ public class MvpRecycler extends AnAction {
 
         String currentEditorFileName = currentEditorFile.getName();
         String modelName = currentEditorFileName;
-        boolean f = false;
         if (currentEditorFileName.endsWith(ACTIVITY)) {
             modelName = currentEditorFileName.replace(ACTIVITY, "");
         } else if (currentEditorFileName.endsWith(FRAGMENT)) {
             modelName = currentEditorFileName.replace(FRAGMENT, "");
-            f = true;
+        } else if (currentEditorFileName.endsWith(VIEW)) {
+            modelName = currentEditorFileName.replace(VIEW, "");
         }
 
         PsiDirectory directory = currentEditorFile.getParent();
@@ -75,7 +76,7 @@ public class MvpRecycler extends AnAction {
         String basePath = getCurrentPath(e);
 
         try {
-            createPresenterClass(f, basePackage, basePath, modelName);
+            createPresenterClass(basePackage, basePath, modelName);
             createModelClass(basePackage, basePath, modelName);
             createMvpClass(basePackage, basePath, modelName);
         } catch (IOException e1) {
@@ -96,7 +97,7 @@ public class MvpRecycler extends AnAction {
         File file = new File(path, filename);
         file.createNewFile();
         BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-        String content = String.format(MvpTemplate.MVP_RECYCLER_TEMPLATE, basePackage, modelName);
+        String content = String.format(MvpRecyclerTemplate.MVP_TEMPLATE, basePackage, modelName);
         writer.write(content);
         writer.flush();
         writer.close();
@@ -107,18 +108,18 @@ public class MvpRecycler extends AnAction {
         File file = new File(path, filename);
         file.createNewFile();
         BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-        String content = String.format(MvpTemplate.MODEL_TEMPLATE, basePackage, modelName);
+        String content = String.format(MvpRecyclerTemplate.MODEL_TEMPLATE, basePackage, modelName);
         writer.write(content);
         writer.flush();
         writer.close();
     }
 
-    private void createPresenterClass(boolean f, String basePackage, String path, String modelName) throws IOException {
+    private void createPresenterClass(String basePackage, String path, String modelName) throws IOException {
         String filename = modelName + "PresenterImpl.java";
         File file = new File(path, filename);
         file.createNewFile();
         BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-        String content = String.format(f ? MvpTemplate.PRESENTER_RECYCLER_FRAGMENT_TEMPLATE : MvpTemplate.PRESENTER__RECYCLER_ACTIVITY_TEMPLATE, basePackage, modelName);
+        String content = String.format(MvpRecyclerTemplate.PRESENTER_TEMPLATE, basePackage, modelName);
         writer.write(content);
         writer.flush();
         writer.close();

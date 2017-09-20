@@ -26,6 +26,7 @@ public class MvpJava extends AnAction {
 
     private String ACTIVITY = "Activity.java";
     private String FRAGMENT = "Fragment.java";
+    private String VIEW = "View.java";
 
     private List<String> domain = Arrays.asList("com", "cn", "net");
 
@@ -42,12 +43,12 @@ public class MvpJava extends AnAction {
 
         String currentEditorFileName = currentEditorFile.getName();
         String modelName = currentEditorFileName;
-        boolean f = false;
         if (currentEditorFileName.endsWith(ACTIVITY)) {
             modelName = currentEditorFileName.replace(ACTIVITY, "");
         } else if (currentEditorFileName.endsWith(FRAGMENT)) {
             modelName = currentEditorFileName.replace(FRAGMENT, "");
-            f = true;
+        } else if (currentEditorFileName.endsWith(VIEW)) {
+            modelName = currentEditorFileName.replace(VIEW, "");
         }
 
         PsiDirectory directory = currentEditorFile.getParent();
@@ -77,7 +78,7 @@ public class MvpJava extends AnAction {
         String basePath = getCurrentPath(e);
 
         try {
-            createPresenterClass(f, basePackage, basePath, modelName);
+            createPresenterClass(basePackage, basePath, modelName);
             createModelClass(basePackage, basePath, modelName);
             createMvpClass(basePackage, basePath, modelName);
         } catch (IOException e1) {
@@ -115,12 +116,12 @@ public class MvpJava extends AnAction {
         writer.close();
     }
 
-    private void createPresenterClass(boolean f, String basePackage, String path, String modelName) throws IOException {
+    private void createPresenterClass(String basePackage, String path, String modelName) throws IOException {
         String filename = modelName + "PresenterImpl.java";
         File file = new File(path, filename);
         file.createNewFile();
         BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-        String content = String.format(f ? MvpTemplate.PRESENTER_FRAGMENT_TEMPLATE : MvpTemplate.PRESENTER_ACTIVITY_TEMPLATE, basePackage, modelName);
+        String content = String.format(MvpTemplate.PRESENTER_TEMPLATE, basePackage, modelName);
         writer.write(content);
         writer.flush();
         writer.close();

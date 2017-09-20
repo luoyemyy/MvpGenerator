@@ -1,16 +1,17 @@
 package com.ao.java;
 
-interface MvpTemplate {
+interface MvpRecyclerTemplate {
+
 
     String MVP_TEMPLATE =
             "package %1$s;\n\n" +
 
-                    "import com.ao.framework.mvp.IMvp;\n\n" +
+                    "import com.ao.framework.mvp_recycler.IRecycler;\n\n" +
 
                     "interface I%2$sMvp {\n" +
-                    "   interface I%2$sModel extends IMvp.IModel {}\n" +
-                    "   interface I%2$sPresenter extends IMvp.IPresenter {}\n" +
-                    "   interface I%2$sView extends IMvp.IView {}\n" +
+                    "   interface I%2$sModel extends IRecycler.IModel {}\n" +
+                    "   interface I%2$sPresenter extends IRecycler.IPresenter<Object> {}\n" +
+                    "   interface I%2$sView extends IRecycler.IView {}\n" +
                     "}";
 
 
@@ -22,31 +23,28 @@ interface MvpTemplate {
                     "import android.os.Bundle;\n" +
                     "import android.support.annotation.Nullable;\n" +
 
-                    "import com.ao.framework.mvp.MvpPresenterImpl;\n\n" +
+                    "import com.ao.framework.mvp_recycler.DataSet;\n" +
+                    "import com.ao.framework.mvp_recycler.RecyclerPresenterImpl;\n\n" +
 
-                    "class %2$sPresenterImpl extends MvpPresenterImpl implements I%2$sMvp.I%2$sPresenter{\n\n" +
+                    "class %2$sPresenterImpl extends RecyclerPresenterImpl<Object> implements I%2$sMvp.I%2$sPresenter{\n\n" +
 
                     "   private Context mContext;\n" +
                     "   private Activity mActivity;\n" +
-                    "   private Fragment mFragment;\n" +
                     "   private I%2$sMvp.I%2$sModel mModel;\n" +
                     "   private I%2$sMvp.I%2$sView mView;\n\n" +
 
                     "   %2$sPresenterImpl(Activity activity,I%2$sMvp.I%2$sView view){\n" +
-                    "       super(activity,view);\n" +
+                    "       super(activity, new DataSet<Object>(true, DataSet.MORE_AFTER, view.getAdapter()), view);\n" +
+                    "//       setViewRefresh(view);\n" +
+                    "//       setViewMore(view);\n" +
+                    "//       setViewSearch(view);\n" +
                     "       mContext = activity;\n" +
                     "       mActivity = activity;\n" +
                     "       mView = view;\n" +
                     "       mModel = new %2$sModelImpl(mContext);\n" +
                     "//       setBusCallback(BusCode.MAIN);\n" +
                     "   }\n\n" +
-
-                    "   @Override\n" +
-                    "   protected void onCreate(@Nullable Bundle savedInstanceState) {\n\n" +
-                    "   }\n" +
-
                     "}";
-
 
     String MODEL_TEMPLATE =
             "package %1$s;\n\n" +
