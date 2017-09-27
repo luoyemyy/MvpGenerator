@@ -28,12 +28,11 @@ interface MvpTemplate {
 
                     "   private Context mContext;\n" +
                     "   private Activity mActivity;\n" +
-                    "   private Fragment mFragment;\n" +
                     "   private I%2$sMvp.I%2$sModel mModel;\n" +
                     "   private I%2$sMvp.I%2$sView mView;\n\n" +
 
                     "   %2$sPresenterImpl(Activity activity,I%2$sMvp.I%2$sView view){\n" +
-                    "       super(activity,view);\n" +
+                    "       super(view);\n" +
                     "       mContext = activity;\n" +
                     "       mActivity = activity;\n" +
                     "       mView = view;\n" +

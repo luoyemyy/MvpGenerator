@@ -79,6 +79,8 @@ public class MvpRecycler extends AnAction {
             createPresenterClass(basePackage, basePath, modelName);
             createModelClass(basePackage, basePath, modelName);
             createMvpClass(basePackage, basePath, modelName);
+            createRecyclerPresenter(basePackage, basePath, modelName);
+            createRecyclerAdapter(basePackage, basePath, modelName);
         } catch (IOException e1) {
             Messages.showMessageDialog("create file failed", "Error", Messages.getErrorIcon());
             return;
@@ -120,6 +122,28 @@ public class MvpRecycler extends AnAction {
         file.createNewFile();
         BufferedWriter writer = new BufferedWriter(new FileWriter(file));
         String content = String.format(MvpRecyclerTemplate.PRESENTER_TEMPLATE, basePackage, modelName);
+        writer.write(content);
+        writer.flush();
+        writer.close();
+    }
+
+    private void createRecyclerPresenter(String basePackage, String path, String modelName) throws IOException {
+        String filename = "RecyclerPresenter.java";
+        File file = new File(path, filename);
+        file.createNewFile();
+        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+        String content = String.format(MvpRecyclerTemplate.RECYCLER_PRESENTER_TEMPLATE, basePackage, modelName);
+        writer.write(content);
+        writer.flush();
+        writer.close();
+    }
+
+    private void createRecyclerAdapter(String basePackage, String path, String modelName) throws IOException {
+        String filename = "RecyclerAdapter.java";
+        File file = new File(path, filename);
+        file.createNewFile();
+        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+        String content = String.format(MvpRecyclerTemplate.ADAPTER_TEMPLATE, basePackage, modelName);
         writer.write(content);
         writer.flush();
         writer.close();
