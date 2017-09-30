@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>com.ao.mvp.generator</id>
     <name>mvp generator java kotlin</name>
-    <version>1.4</version>
+    <version>1.5</version>
     <vendor email="598031436@qq.com" url="http://www.yourcompany.com">叶玉明</vendor>
 
     <description><![CDATA[

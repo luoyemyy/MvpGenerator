@@ -39,12 +39,15 @@ public class MvpRecycler extends AnAction {
             return;
         }
 
+        boolean fragment = false;
+
         String currentEditorFileName = currentEditorFile.getName();
         String modelName = currentEditorFileName;
         if (currentEditorFileName.endsWith(ACTIVITY)) {
             modelName = currentEditorFileName.replace(ACTIVITY, "");
         } else if (currentEditorFileName.endsWith(FRAGMENT)) {
             modelName = currentEditorFileName.replace(FRAGMENT, "");
+            fragment = true;
         } else if (currentEditorFileName.endsWith(VIEW)) {
             modelName = currentEditorFileName.replace(VIEW, "");
         }
@@ -76,7 +79,13 @@ public class MvpRecycler extends AnAction {
         String basePath = getCurrentPath(e);
 
         try {
-            createPresenterClass(basePackage, basePath, modelName);
+            //com.ao.framework Message Fragment             fragment mFragment .getContext()
+            //com.ao.framework Message AppCompatActivity    activity mActivity
+            String s3 = fragment ? "Fragment" : "AppCompatActivity";
+            String s4 = fragment ? "fragment" : "activity";
+            String s5 = fragment ? "mFragment" : "mActivity";
+            String s6 = fragment ? ".getContext()" : "";
+            createPresenterClass(basePackage, basePath, modelName, s3, s4, s5, s6);
             createModelClass(basePackage, basePath, modelName);
             createMvpClass(basePackage, basePath, modelName);
             createRecyclerPresenter(basePackage, basePath, modelName);
@@ -116,12 +125,12 @@ public class MvpRecycler extends AnAction {
         writer.close();
     }
 
-    private void createPresenterClass(String basePackage, String path, String modelName) throws IOException {
+    private void createPresenterClass(String basePackage, String path, String modelName, String s3, String s4, String s5, String s6) throws IOException {
         String filename = modelName + "PresenterImpl.java";
         File file = new File(path, filename);
         file.createNewFile();
         BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-        String content = String.format(MvpRecyclerTemplate.PRESENTER_TEMPLATE, basePackage, modelName);
+        String content = String.format(MvpRecyclerTemplate.PRESENTER_TEMPLATE, basePackage, modelName, s3, s4, s5, s6);
         writer.write(content);
         writer.flush();
         writer.close();
