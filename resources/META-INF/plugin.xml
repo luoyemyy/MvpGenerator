@@ -1,14 +1,16 @@
 <idea-plugin>
-    <id>com.ao.mvp.generator</id>
-    <name>mvp generator java kotlin</name>
-    <version>1.5</version>
-    <vendor email="598031436@qq.com" url="http://www.yourcompany.com">叶玉明</vendor>
+    <id>com.ao.java.Generator</id>
+    <name>mvp generator</name>
+    <version>1.0</version>
+    <vendor email="598031436@qq.com" url="https://github.com/luoyemyy">luoyemyy</vendor>
 
     <description><![CDATA[
       android studio mvp 模板代码生成插件
     ]]></description>
 
-    <change-notes><![CDATA[无]]>
+    <change-notes><![CDATA[
+      1.0 模板代码生成插件
+    ]]>
     </change-notes>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
@@ -26,17 +28,15 @@
 
     <actions>
 
-        <group id="MVPSupport.Generate" text="MVPSupport" description="MVPSupport">
-            <add-to-group group-id="GenerateGroup" anchor="last"/>
-            <action id="MVPSupportPlugin.Java"
-                    class="com.ao.java.MvpJava"
-                    text="mvpJava" description="mvpJava">
-            </action>
-            <action id="MVPSupportPlugin.RecyclerJava"
-                    class="com.ao.java.MvpRecycler"
-                    text="mvpRecyclerJava" description="mvpRecyclerJava">
-            </action>
-        </group>
+        <!--<action id="JavaGenerator.Mvp"-->
+                <!--class="com.ao.java.Generator>
+                <!-text="mvpJava" description="mvpJava">-->
+            <!--<add-to-group group-id="NewGroup" anchor="last"/>-->
+        <!--</action>-->
+
+        <action id="JavaGenerator.Mvp" class="com.ao.java.Generator" text="mvp generator" description="mvp generator">
+            <add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewFile"/>
+        </action>
     </actions>
 
 </idea-plugin>

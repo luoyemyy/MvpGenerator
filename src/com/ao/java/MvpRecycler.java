@@ -1,16 +1,7 @@
 package com.ao.java;
 
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.DataKeys;
-import com.intellij.openapi.actionSystem.PlatformDataKeys;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.Messages;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiDirectory;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.util.PsiUtilBase;
+import a.d.e.a.S;
+import org.apache.commons.lang.StringUtils;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -18,153 +9,97 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
-public class MvpRecycler extends AnAction {
-    private String ACTIVITY = "Activity.java";
-    private String FRAGMENT = "Fragment.java";
-    private String VIEW = "View.java";
+public class MvpRecycler extends Creator {
 
-    private List<String> domain = Arrays.asList("com", "cn", "net");
+    private String recyclerName;
+    private List<String> names;
 
-    public void actionPerformed(AnActionEvent e) {
-        Project project = e.getProject();
-        Editor editor = e.getData(PlatformDataKeys.EDITOR);
-        if (project == null || editor == null) {
-            return;
+    public MvpRecycler(String path, String packageName, boolean isActivity, String name, String recyclerName) {
+        super(path, packageName, isActivity, name);
+        this.recyclerName = recyclerName;
+        names = new ArrayList<>();
+        if (StringUtils.isEmpty(recyclerName)) {
+            names.add("");
+        } else {
+            names.addAll(Arrays.asList(recyclerName.split(",")));
         }
-        PsiFile currentEditorFile = PsiUtilBase.getPsiFileInEditor(editor, project);
-        if (currentEditorFile == null) {
-            return;
-        }
+    }
 
-        boolean fragment = false;
-
-        String currentEditorFileName = currentEditorFile.getName();
-        String modelName = currentEditorFileName;
-        if (currentEditorFileName.endsWith(ACTIVITY)) {
-            modelName = currentEditorFileName.replace(ACTIVITY, "");
-        } else if (currentEditorFileName.endsWith(FRAGMENT)) {
-            modelName = currentEditorFileName.replace(FRAGMENT, "");
-            fragment = true;
-        } else if (currentEditorFileName.endsWith(VIEW)) {
-            modelName = currentEditorFileName.replace(VIEW, "");
-        }
-
-        PsiDirectory directory = currentEditorFile.getParent();
-
-
-        List<String> list = new ArrayList<>();
-        while (directory != null) {
-            list.add(directory.getName());
-            if (domain.contains(directory.getName())) {
-                break;
-            }
-            directory = directory.getParent();
-        }
-        if (list.size() == 0) {
-            return;
-        }
-        Collections.reverse(list);
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < list.size(); i++) {
-            stringBuilder.append(list.get(i));
-            if (i < list.size() - 1) {
-                stringBuilder.append(".");
-            }
-        }
-        String basePackage = stringBuilder.toString();
-
-        String basePath = getCurrentPath(e);
-
+    public void create() {
         try {
-            //com.ao.framework Message Fragment             fragment mFragment .getContext()
-            //com.ao.framework Message AppCompatActivity    activity mActivity
-            String s3 = fragment ? "Fragment" : "AppCompatActivity";
-            String s4 = fragment ? "fragment" : "activity";
-            String s5 = fragment ? "mFragment" : "mActivity";
-            String s6 = fragment ? ".getContext()" : "";
-            createPresenterClass(basePackage, basePath, modelName, s3, s4, s5, s6);
-            createModelClass(basePackage, basePath, modelName);
-            createMvpClass(basePackage, basePath, modelName);
-            createRecyclerPresenter(basePackage, basePath, modelName);
-            createRecyclerAdapter(basePackage, basePath, modelName);
-        } catch (IOException e1) {
-            Messages.showMessageDialog("create file failed", "Error", Messages.getErrorIcon());
-            return;
+            createMvpClass();
+            createViewClass();
+            createPresenterClass();
+            createModelClass();
+            names.forEach(n -> {
+                try {
+                    createRecyclerAdapterClass(n);
+                    createRecyclerPresenterClass(n);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-//        Messages.showMessageDialog("created success! please wait a moment", "Success", Messages.getInformationIcon());
-        refreshProject(e);
     }
 
+    private void createViewClass() throws IOException {
+        String filename = name + (isActivity ? "Activity.java" : "Fragment.java");
 
-    private void refreshProject(AnActionEvent e) {
-        e.getProject().getBaseDir().refresh(false, true);
+        StringBuilder sb3 = new StringBuilder();
+        StringBuilder sb4 = new StringBuilder();
+        names.forEach(n -> {
+            sb3.append(String.format("private %1$sRecyclerPresenter m%1$sRecyclerPresenter;\n", n));
+            sb4.append(String.format("%1$sRecyclerAdapter adapter%1$s = new %1$sRecyclerAdapter(%2$s, mRecyclerView, mSwipeRefreshLayout);\n" +
+                    "m%1$sRecyclerPresenter = mPresenter.get%1$sRecyclerPresenter(adapter%1$s);\n", n, isActivity ? "this" : "getContext()"));
+        });
+
+        String content = String.format(isActivity ? TemplateMvpRecycler.view_activity : TemplateMvpRecycler.view_fragment, packageName, name, sb3.toString(), sb4.toString());
+        write(filename, content);
     }
 
-    private void createMvpClass(String basePackage, String path, String modelName) throws IOException {
-        String filename = "I" + modelName + "Mvp.java";
-        File file = new File(path, filename);
-        file.createNewFile();
-        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-        String content = String.format(MvpRecyclerTemplate.MVP_TEMPLATE, basePackage, modelName);
-        writer.write(content);
-        writer.flush();
-        writer.close();
+    private void createPresenterClass() throws IOException {
+        String filename = name + "PresenterImpl.java";
+
+        StringBuilder sb3 = new StringBuilder();
+        StringBuilder sb4 = new StringBuilder();
+        names.forEach(n -> {
+            sb3.append(String.format("private %1$sRecyclerPresenter m%1$sRecyclerPresenter;\n", n));
+            sb4.append(String.format(TemplateMvpRecycler.presenter_recycler, n));
+        });
+
+        String content = String.format(isActivity ? TemplateMvpRecycler.presenter_activity : TemplateMvpRecycler.presenter_fragment, packageName, name, sb3.toString(), sb4.toString());
+        write(filename, content);
     }
 
-    private void createModelClass(String basePackage, String path, String modelName) throws IOException {
-        String filename = modelName + "ModelImpl.java";
-        File file = new File(path, filename);
-        file.createNewFile();
-        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-        String content = String.format(MvpRecyclerTemplate.MODEL_TEMPLATE, basePackage, modelName);
-        writer.write(content);
-        writer.flush();
-        writer.close();
+    private void createMvpClass() throws IOException {
+        String filename = "I" + name + "Mvp.java";
+
+        StringBuilder sb3 = new StringBuilder();
+        names.forEach(n -> sb3.append(String.format("%1$sRecyclerPresenter get%1$sRecyclerPresenter(%1$sRecyclerAdapter adapter);\n", n)));
+
+        String content = String.format(TemplateMvpRecycler.mvp, packageName, name, sb3.toString());
+        write(filename, content);
     }
 
-    private void createPresenterClass(String basePackage, String path, String modelName, String s3, String s4, String s5, String s6) throws IOException {
-        String filename = modelName + "PresenterImpl.java";
-        File file = new File(path, filename);
-        file.createNewFile();
-        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-        String content = String.format(MvpRecyclerTemplate.PRESENTER_TEMPLATE, basePackage, modelName, s3, s4, s5, s6);
-        writer.write(content);
-        writer.flush();
-        writer.close();
+    private void createModelClass() throws IOException {
+        String filename = name + "ModelImpl.java";
+        String content = String.format(TemplateMvpRecycler.model, packageName, name);
+        write(filename, content);
     }
 
-    private void createRecyclerPresenter(String basePackage, String path, String modelName) throws IOException {
-        String filename = "RecyclerPresenter.java";
-        File file = new File(path, filename);
-        file.createNewFile();
-        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-        String content = String.format(MvpRecyclerTemplate.RECYCLER_PRESENTER_TEMPLATE, basePackage, modelName);
-        writer.write(content);
-        writer.flush();
-        writer.close();
+    private void createRecyclerPresenterClass(String n) throws IOException {
+        String filename = n + "RecyclerPresenter.java";
+        String content = String.format(TemplateMvpRecycler.recycler_presenter, packageName, name, n);
+        write(filename, content);
     }
 
-    private void createRecyclerAdapter(String basePackage, String path, String modelName) throws IOException {
-        String filename = "RecyclerAdapter.java";
-        File file = new File(path, filename);
-        file.createNewFile();
-        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-        String content = String.format(MvpRecyclerTemplate.ADAPTER_TEMPLATE, basePackage, modelName);
-        writer.write(content);
-        writer.flush();
-        writer.close();
+    private void createRecyclerAdapterClass(String n) throws IOException {
+        String filename = n + "RecyclerAdapter.java";
+        String content = String.format(TemplateMvpRecycler.adpter, packageName, name, n);
+        write(filename, content);
     }
-
-
-    private String getCurrentPath(AnActionEvent e) {
-        VirtualFile currentFile = DataKeys.VIRTUAL_FILE.getData(e.getDataContext());
-        if (currentFile != null) {
-            return currentFile.getParent().getPath();
-        }
-        return null;
-    }
-
 }
