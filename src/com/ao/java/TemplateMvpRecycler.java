@@ -40,7 +40,14 @@ public interface TemplateMvpRecycler {
                     "       mModel = new %2$sModelImpl(mContext);\n" +
                     "//       setBusCallback(BusCode.MAIN);\n" +
                     "   }\n\n" +
+
                     "   %4$s\n" +
+
+                    "   @Override\n" +
+                    "   protected void onCreate(@Nullable Bundle savedInstanceState) {\n" +
+                    "       mRecyclerPresenter.create();\n" +
+                    "   }\n\n" +
+
                     "}\n";
 
 
@@ -70,7 +77,14 @@ public interface TemplateMvpRecycler {
                     "       mModel = new %2$sModelImpl(mContext);\n" +
                     "//       setBusCallback(BusCode.MAIN);\n" +
                     "   }\n\n" +
+
                     "   %4$s\n" +
+
+                    "   @Override\n" +
+                    "   protected void onCreate(@Nullable Bundle savedInstanceState) {\n" +
+                    "       mRecyclerPresenter.create();\n" +
+                    "   }\n\n" +
+
                     "}\n";
 
     String presenter_recycler =
@@ -145,7 +159,6 @@ public interface TemplateMvpRecycler {
                     "import com.ao.framework.mvp_recycler.VHNull;\n\n" +
 
                     "class %3$sRecyclerAdapter extends AbsRecyclerAdapter {\n\n" +
-                    "   private Context mContext;\n" +
                     "   private LayoutInflater mInflater;\n" +
                     "   private I%2$sMvp.I%2$sPresenter mPresenter;\n" +
                     "   private %3$sRecyclerPresenter mRecyclerPresenter;\n\n" +
@@ -226,8 +239,8 @@ public interface TemplateMvpRecycler {
 
                     "   @Override\n" +
                     "   protected void initViewAndPresenter() {\n" +
-                    "       //mRecyclerView = (RecyclerView) v.findViewById(R.id.recyclerView);\n" +
-                    "       //mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeRefreshLayout);\n\n" +
+                    "       //mRecyclerView = findViewById(R.id.recyclerView);\n" +
+                    "       //mSwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);\n\n" +
 
                     "       mPresenter = new %2$sPresenterImpl(this, this);\n" +
                     "       %4$s\n\n" +
@@ -265,8 +278,8 @@ public interface TemplateMvpRecycler {
 
                     "   @Override\n" +
                     "   protected View initViewAndPresenter(View v) {\n" +
-                    "       //mRecyclerView = (RecyclerView) v.findViewById(R.id.recyclerView);\n" +
-                    "       //mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeRefreshLayout);\n\n" +
+                    "       //mRecyclerView = v.findViewById(R.id.recyclerView);\n" +
+                    "       //mSwipeRefreshLayout = v.findViewById(R.id.swipeRefreshLayout);\n\n" +
 
                     "       mPresenter = new %2$sPresenterImpl(this, this);\n" +
                     "       %4$s\n\n" +
