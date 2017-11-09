@@ -91,7 +91,6 @@ public interface TemplateMvpRecycler {
             "@Override\n" +
                     "   public %1$sRecyclerPresenter get%1$sRecyclerPresenter(%1$sRecyclerAdapter adapter) {\n" +
                     "       m%1$sRecyclerPresenter = new %1$sRecyclerPresenter(this, mModel, mView, adapter);\n" +
-                    "       adapter.withPresenter(this, m%1$sRecyclerPresenter);\n" +
                     "       return m%1$sRecyclerPresenter;\n" +
                     "   }\n";
 

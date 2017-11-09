@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>com.ao.java.Generator</id>
     <name>mvp generator</name>
-    <version>1.0</version>
+    <version>1.1</version>
     <vendor email="598031436@qq.com" url="https://github.com/luoyemyy">luoyemyy</vendor>
 
     <description><![CDATA[
@@ -35,6 +35,10 @@
         <!--</action>-->
 
         <action id="JavaGenerator.Mvp" class="com.ao.java.Generator" text="mvp generator" description="mvp generator">
+            <add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewFile"/>
+        </action>
+
+        <action id="Mvp.Kotlin.Generator" class="com.ao.kotlin.Generator" text="mvp kotlin generator" description="mvp kotlin generator">
             <add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewFile"/>
         </action>
     </actions>
