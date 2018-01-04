@@ -5,7 +5,7 @@ public interface TemplateMvp {
     String mvp =
             "package %1$s;\n\n" +
 
-                    "import com.ao.framework.mvp.IMvp;\n\n" +
+                    "import com.github.luoyemyy.framework.mvp.IMvp;\n\n" +
 
                     "interface I%2$sMvp {\n" +
                     "   interface I%2$sModel extends IMvp.IModel {}\n" +
@@ -22,7 +22,7 @@ public interface TemplateMvp {
                     "import android.support.annotation.Nullable;\n" +
                     "import android.support.v7.app.AppCompatActivity;\n" +
 
-                    "import com.ao.framework.mvp.MvpPresenterImpl;\n\n" +
+                    "import com.github.luoyemyy.framework.mvp.MvpPresenterImpl;\n\n" +
 
                     "class %2$sPresenterImpl extends MvpPresenterImpl implements I%2$sMvp.I%2$sPresenter{\n\n" +
 
@@ -54,7 +54,7 @@ public interface TemplateMvp {
                     "import android.support.annotation.Nullable;\n" +
                     "import android.support.v4.app.Fragment;\n" +
 
-                    "import com.ao.framework.mvp.MvpPresenterImpl;\n\n" +
+                    "import com.github.luoyemyy.framework.mvp.MvpPresenterImpl;\n\n" +
 
                     "class %2$sPresenterImpl extends MvpPresenterImpl implements I%2$sMvp.I%2$sPresenter{\n\n" +
 
@@ -98,7 +98,7 @@ public interface TemplateMvp {
     String view_activity =
             "package %1$s;\n\n" +
 
-                    "import com.ao.framework.mvp.MvpActivity;\n\n" +
+                    "import com.github.luoyemyy.framework.mvp.MvpActivity;\n\n" +
 
                     "public class %2$sActivity extends MvpActivity implements I%2$sMvp.I%2$sView {\n\n" +
 
@@ -122,7 +122,7 @@ public interface TemplateMvp {
 
                     "import android.view.View;\n\n" +
 
-                    "import com.ao.framework.mvp.MvpFragment;\n\n" +
+                    "import com.github.luoyemyy.framework.mvp.MvpFragment;\n\n" +
 
                     "public class %2$sFragment extends MvpFragment implements I%2$sMvp.I%2$sView {\n\n" +
 

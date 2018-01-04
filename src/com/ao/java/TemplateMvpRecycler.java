@@ -6,7 +6,7 @@ public interface TemplateMvpRecycler {
     String mvp =
             "package %1$s;\n\n" +
 
-                    "import com.ao.framework.mvp.IMvp;\n\n" +
+                    "import com.github.luoyemyy.framework.mvp.IMvp;\n\n" +
 
                     "interface I%2$sMvp {\n" +
                     "   interface I%2$sModel extends IMvp.IModel {}\n" +
@@ -22,7 +22,7 @@ public interface TemplateMvpRecycler {
                     "import android.content.Context;\n" +
                     "import android.support.v7.app.AppCompatActivity;\n" +
 
-                    "import com.ao.framework.mvp.MvpPresenterImpl;\n\n" +
+                    "import com.github.luoyemyy.framework.mvp.MvpPresenterImpl;\n\n" +
 
                     "class %2$sPresenterImpl extends MvpPresenterImpl implements I%2$sMvp.I%2$sPresenter{\n\n" +
 
@@ -59,7 +59,7 @@ public interface TemplateMvpRecycler {
                     "import android.support.annotation.Nullable;\n" +
                     "import android.support.v4.app.Fragment;\n" +
 
-                    "import com.ao.framework.mvp.MvpPresenterImpl;\n\n" +
+                    "import com.github.luoyemyy.framework.mvp.MvpPresenterImpl;\n\n" +
 
                     "class %2$sPresenterImpl extends MvpPresenterImpl implements I%2$sMvp.I%2$sPresenter{\n\n" +
 
@@ -117,8 +117,8 @@ public interface TemplateMvpRecycler {
 
             "package %1$s;\n\n" +
 
-                    "import com.ao.framework.mvp_recycler.AbsRecyclerPresenter;\n" +
-                    "import com.ao.framework.mvp_recycler.DataSet;\n\n" +
+                    "import com.github.luoyemyy.framework.mvp_recycler.AbsRecyclerPresenter;\n" +
+                    "import com.github.luoyemyy.framework.mvp_recycler.DataSet;\n\n" +
 
                     "class %3$sRecyclerPresenter extends AbsRecyclerPresenter<Object> {\n\n" +
 
@@ -148,14 +148,14 @@ public interface TemplateMvpRecycler {
                     "import android.view.View;\n" +
                     "import android.view.ViewGroup;\n\n" +
 
-                    "import com.ao.framework.mvp_recycler.AbsRecyclerAdapter;\n" +
-                    "import com.ao.framework.mvp_recycler.DataSet;\n" +
-                    "import com.ao.framework.mvp_recycler.VHEmptyData;\n" +
-                    "import com.ao.framework.mvp_recycler.VHEmptyError;\n" +
-                    "import com.ao.framework.mvp_recycler.VHMoreEnd;\n" +
-                    "import com.ao.framework.mvp_recycler.VHMoreError;\n" +
-                    "import com.ao.framework.mvp_recycler.VHMoreLoading;\n" +
-                    "import com.ao.framework.mvp_recycler.VHNull;\n\n" +
+                    "import com.github.luoyemyy.framework.mvp_recycler.AbsRecyclerAdapter;\n" +
+                    "import com.github.luoyemyy.framework.mvp_recycler.DataSet;\n" +
+                    "import com.github.luoyemyy.framework.mvp_recycler.VHEmptyData;\n" +
+                    "import com.github.luoyemyy.framework.mvp_recycler.VHEmptyError;\n" +
+                    "import com.github.luoyemyy.framework.mvp_recycler.VHMoreEnd;\n" +
+                    "import com.github.luoyemyy.framework.mvp_recycler.VHMoreError;\n" +
+                    "import com.github.luoyemyy.framework.mvp_recycler.VHMoreLoading;\n" +
+                    "import com.github.luoyemyy.framework.mvp_recycler.VHNull;\n\n" +
 
                     "class %3$sRecyclerAdapter extends AbsRecyclerAdapter {\n\n" +
                     "   private LayoutInflater mInflater;\n" +
@@ -219,7 +219,7 @@ public interface TemplateMvpRecycler {
                     "import android.support.v4.widget.SwipeRefreshLayout;\n" +
                     "import android.support.v7.widget.RecyclerView;\n\n" +
 
-                    "import com.ao.framework.mvp.MvpActivity;\n\n" +
+                    "import com.github.luoyemyy.framework.mvp.MvpActivity;\n\n" +
 
                     "public class %2$sActivity extends MvpActivity implements I%2$sMvp.I%2$sView {\n\n" +
 
@@ -258,7 +258,7 @@ public interface TemplateMvpRecycler {
                     "import android.view.View;\n\n" +
                     "import android.view.ViewGroup;\n" +
 
-                    "import com.ao.framework.mvp.MvpFragment;\n\n" +
+                    "import com.github.luoyemyy.framework.mvp.MvpFragment;\n\n" +
 
                     "public class %2$sFragment extends MvpFragment implements I%2$sMvp.I%2$sView {\n\n" +
 

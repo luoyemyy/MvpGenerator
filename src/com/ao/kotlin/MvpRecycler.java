@@ -49,7 +49,7 @@ public class MvpRecycler extends Creator {
         StringBuilder sb4 = new StringBuilder();
         names.forEach(n -> {
             sb3.append(String.format("private lateinit var m%1$sRecyclerPresenter: %1$sRecyclerPresenter\n", n));
-            sb4.append(String.format("m%1$sRecyclerPresenter = mPresenter.get%1$sRecyclerPresenter(%1$sRecyclerAdapter(%2$s, mRecyclerView, mSwipeRefreshLayout))\n", n, isActivity ? "this" : "getContext()"));
+            sb4.append(String.format("m%1$sRecyclerPresenter = mPresenter.get%1$sRecyclerPresenter(%1$sRecyclerAdapter(%2$s, mRecyclerView, mSwipeRefreshLayout, this))\n", n, isActivity ? "this" : "context"));
         });
 
         String content = String.format(isActivity ? TemplateMvpRecycler.view_activity : TemplateMvpRecycler.view_fragment, packageName, name, sb3.toString(), sb4.toString());

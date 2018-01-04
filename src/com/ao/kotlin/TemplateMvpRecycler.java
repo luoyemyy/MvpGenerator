@@ -6,7 +6,7 @@ public interface TemplateMvpRecycler {
     String mvp =
             "package %1$s\n\n" +
 
-                    "import com.ao.framework.mvp.IMvp\n\n" +
+                    "import com.github.luoyemyy.framework.mvp.IMvp\n\n" +
 
                     "internal interface I%2$sMvp {\n" +
                     "   interface I%2$sModel : IMvp.IModel \n" +
@@ -23,7 +23,7 @@ public interface TemplateMvpRecycler {
                     "import android.os.Bundle\n" +
                     "import android.support.v7.app.AppCompatActivity\n" +
 
-                    "import com.ao.framework.mvp.MvpPresenterImpl\n\n" +
+                    "import com.github.luoyemyy.framework.mvp.MvpPresenterImpl\n\n" +
 
                     "internal class %2$sPresenterImpl(private val mActivity: AppCompatActivity, private val mView: I%2$sMvp.I%2$sView) : MvpPresenterImpl(mView), I%2$sMvp.I%2$sPresenter{\n\n" +
 
@@ -50,7 +50,7 @@ public interface TemplateMvpRecycler {
                     "import android.os.Bundle\n" +
                     "import android.support.v4.app.Fragment\n" +
 
-                    "import com.ao.framework.mvp.MvpPresenterImpl\n\n" +
+                    "import com.github.luoyemyy.framework.mvp.MvpPresenterImpl\n\n" +
 
                     "internal class %2$sPresenterImpl(private val mFragment: Fragment, private val mView: I%2$sMvp.I%2$sView) : MvpPresenterImpl(mView), I%2$sMvp.I%2$sPresenter{\n\n" +
 
@@ -92,9 +92,9 @@ public interface TemplateMvpRecycler {
 
             "package %1$s\n\n" +
 
-                    "import com.ao.framework.mvp.recycler.AbsRecyclerPresenter\n\n" +
+                    "import com.github.luoyemyy.framework.mvp.recycler.AbsRecyclerPresenter\n\n" +
 
-                    "internal class %3$sRecyclerPresenter(private val mPresenter: I%2$sMvp.I%2$sPresenter, private val mModel: I%2$sMvp.I%2$sModel, private val mView: I%2$sMvp.I%2$sView, adapter: %3$sRecyclerAdapter) : AbsRecyclerPresenter<%4$s>(mPresenter, adapter, adapter) {\n\n" +
+                    "internal class %3$sRecyclerPresenter(private val mPresenter: I%2$sMvp.I%2$sPresenter, private val mModel: I%2$sMvp.I%2$sModel, private val mView: I%2$sMvp.I%2$sView, val adapter: %3$sRecyclerAdapter) : AbsRecyclerPresenter<%4$s>(mPresenter, adapter, adapter) {\n\n" +
 
 
                     "   init {\n" +
@@ -114,16 +114,16 @@ public interface TemplateMvpRecycler {
                     "import android.view.View\n" +
                     "import android.view.ViewGroup\n\n" +
 
-                    "import com.ao.framework.mvp.recycler.AbsRecyclerAdapter\n" +
-                    "import com.ao.framework.mvp.recycler.DataSet\n" +
-                    "import com.ao.framework.mvp.recycler.VHEmptyData\n" +
-                    "import com.ao.framework.mvp.recycler.VHEmptyError\n" +
-                    "import com.ao.framework.mvp.recycler.VHMoreEnd\n" +
-                    "import com.ao.framework.mvp.recycler.VHMoreError\n" +
-                    "import com.ao.framework.mvp.recycler.VHMoreLoading\n" +
-                    "import com.ao.framework.mvp.recycler.VHNull\n\n" +
+                    "import com.github.luoyemyy.framework.mvp.recycler.AbsRecyclerAdapter\n" +
+                    "import com.github.luoyemyy.framework.mvp.recycler.DataSet\n" +
+                    "import com.github.luoyemyy.framework.mvp.recycler.VHEmptyData\n" +
+                    "import com.github.luoyemyy.framework.mvp.recycler.VHEmptyError\n" +
+                    "import com.github.luoyemyy.framework.mvp.recycler.VHMoreEnd\n" +
+                    "import com.github.luoyemyy.framework.mvp.recycler.VHMoreError\n" +
+                    "import com.github.luoyemyy.framework.mvp.recycler.VHMoreLoading\n" +
+                    "import com.github.luoyemyy.framework.mvp.recycler.VHNull\n\n" +
 
-                    "internal class %3$sRecyclerAdapter(context: Context, recyclerView: RecyclerView, swipeRefreshLayout: SwipeRefreshLayout?) : AbsRecyclerAdapter(context, recyclerView, swipeRefreshLayout) {\n\n" +
+                    "internal class %3$sRecyclerAdapter(context: Context, recyclerView: RecyclerView, swipeRefreshLayout: SwipeRefreshLayout?, private val mView: I%2$sMvp.I%2$sView) : AbsRecyclerAdapter(context, recyclerView, swipeRefreshLayout) {\n\n" +
 
                     "   private val mInflater: LayoutInflater = LayoutInflater.from(context)\n" +
                     "   private lateinit var mPresenter: I%2$sMvp.I%2$sPresenter\n" +
@@ -135,30 +135,28 @@ public interface TemplateMvpRecycler {
                     "       initView()\n" +
                     "   }\n\n" +
 
-                    "   override fun getRecyclerPresenter(): %3$sRecyclerPresenter {\n" +
-                    "       return mRecyclerPresenter\n" +
-                    "   }\n\n" +
+                    "   override fun getRecyclerPresenter(): %3$sRecyclerPresenter = mRecyclerPresenter\n\n" +
 
-                    "   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {\n" +
-                    "       return when (viewType) {\n" +
-                    "          DataSet.Type.EMPTY -> VHEmptyData(mContext)\n" +
-                    "          DataSet.Type.EMPTY_ERROR -> VHEmptyError(mContext, mRecyclerPresenter)\n" +
-                    "          DataSet.Type.MORE_LOADING -> VHMoreLoading(mContext)\n" +
-                    "          DataSet.Type.MORE_END -> VHMoreEnd(mContext)\n" +
-                    "          DataSet.Type.MORE_ERROR -> VHMoreError(mContext, mRecyclerPresenter)\n" +
+                    "   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =\n" +
+                    "        when (viewType) {\n" +
+                    "          DataSet.Type.EMPTY -> VHEmptyData(mContext, parent)\n" +
+                    "          DataSet.Type.EMPTY_ERROR -> VHEmptyError(mContext, parent, mRecyclerPresenter)\n" +
+                    "          DataSet.Type.MORE_LOADING -> VHMoreLoading(mContext, parent)\n" +
+                    "          DataSet.Type.MORE_END -> VHMoreEnd(mContext, parent)\n" +
+                    "          DataSet.Type.MORE_ERROR -> VHMoreError(mContext, parent, mRecyclerPresenter)\n" +
                     "          DataSet.Type.CONTENT -> VH(mInflater.inflate(0, parent, false))\n" +
                     "          else -> VHNull(mContext)\n" +
-                    "       }\n" +
-                    "   }\n\n" +
+                    "       }\n\n" +
 
                     "   override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {\n" +
-                    "       val viewType = getItemViewType(position)\n" +
-                    "       if (viewType == DataSet.Type.CONTENT) {\n" +
-                    "           val vh = holder\n" +
+                    "       when (getItemViewType(position)) {\n" +
+                    "           DataSet.Type.CONTENT -> {\n" +
+                    "               val vh = holder\n" +
+                    "           }\n" +
                     "       }\n" +
                     "   }\n\n" +
 
-                    "   private inner class VH constructor(itemView: View) : RecyclerView.ViewHolder(itemView) \n" +
+                    "   private inner class VH(itemView: View) : RecyclerView.ViewHolder(itemView) \n" +
 
                     "}";
 
@@ -169,7 +167,7 @@ public interface TemplateMvpRecycler {
                     "import android.support.v4.widget.SwipeRefreshLayout\n" +
                     "import android.support.v7.widget.RecyclerView\n\n" +
 
-                    "import com.ao.framework.mvp.MvpActivity\n\n" +
+                    "import com.github.luoyemyy.framework.mvp.MvpActivity\n\n" +
 
                     "class %2$sActivity : MvpActivity(), I%2$sMvp.I%2$sView {\n\n" +
 
@@ -186,8 +184,8 @@ public interface TemplateMvpRecycler {
                     "   }\n\n" +
 
                     "   override fun initViewAndPresenter() {\n" +
-                    "       //mRecyclerView = findViewById(R.id.recyclerView);\n" +
-                    "       //mSwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);\n\n" +
+                    "       //mRecyclerView = findViewById(R.id.recyclerView)\n" +
+                    "       //mSwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout)\n\n" +
 
                     "       mPresenter = %2$sPresenterImpl(this, this)\n" +
                     "       %4$s\n\n" +
@@ -204,7 +202,7 @@ public interface TemplateMvpRecycler {
                     "import android.view.View\n" +
                     "import android.view.ViewGroup\n\n" +
 
-                    "import com.ao.framework.mvp.MvpFragment\n\n" +
+                    "import com.github.luoyemyy.framework.mvp.MvpFragment\n\n" +
 
                     "class %2$sFragment : MvpFragment(), I%2$sMvp.I%2$sView {\n\n" +
 
@@ -220,8 +218,8 @@ public interface TemplateMvpRecycler {
                     "   }\n\n" +
 
                     "   override fun initViewAndPresenter(v: View): View {\n" +
-                    "       //mRecyclerView = v.findViewById(R.id.recyclerView);\n" +
-                    "       //mSwipeRefreshLayout = v.findViewById(R.id.swipeRefreshLayout);\n\n" +
+                    "       //mRecyclerView = v.findViewById(R.id.recyclerView)\n" +
+                    "       //mSwipeRefreshLayout = v.findViewById(R.id.swipeRefreshLayout)\n\n" +
 
                     "       mPresenter = %2$sPresenterImpl(this, this)\n" +
                     "       %4$s\n\n" +
